@@ -242,8 +242,9 @@ class AMCdata
       uint8_t m_Rtype;
       uint8_t m_Param1;       ///<Run param1:8 
       uint8_t m_Param2;       ///<Run param2:8
-      uint8_t m_Param3;       ///<Run param3:8 
-      uint16_t m_Onum;        ///<Orbit number:16 
+      uint16_t m_Param3;       ///<Run param3:8 //GC : messo a 16
+      uint8_t m_mspl;
+      uint16_t m_Onum;        ///<Orbit number:16
       //!Board ID:16
       /*!This is currently filled with 8bit long GLIB serial number*/
       uint16_t m_BID;
@@ -290,7 +291,8 @@ class AMCdata
               const uint8_t &Rtype_, 
               const uint8_t &Param1_, 
               const uint8_t &Param2_, 
-              const uint8_t &Param3_, 
+              const uint16_t &Param3_, 
+              const uint8_t &mspl_, 
               const uint16_t &Onum_, 
               const uint16_t &BID_,
               const uint32_t &GEMDAV_, 
@@ -308,6 +310,7 @@ class AMCdata
           m_Param1(Param1_),
           m_Param2(Param2_),                                  
           m_Param3(Param3_),
+          m_mspl(mspl_),
           m_Onum(Onum_),                                    
           m_BID(BID_),
           m_GEMDAV(GEMDAV_), 
@@ -340,8 +343,9 @@ class AMCdata
       m_FV = 0x0f & (word >> 60);     /*!Format Version */
       m_Rtype = 0x0f & (word >> 56);  /*!Run Type */
       m_Param1 = word >> 48;          /*!Run Param 1 */
-      m_Param2 = word >> 40;          /*!Run Param 2 */
-      m_Param3 = word >> 32;          /*!Run Param 3 */
+      m_Param2 = word >> 45; //40;          /*!Run Param 2 *
+      m_Param3 = 0x03ff & (word >> 32); //word >> 32;          /*!Run Param 3 */
+      m_mspl = 0x07 & (word >> 42) ;/* 3 bit */
       m_Onum = word >> 16;            /*!Orbit Number */
       m_BID = word;                   /*!Board ID */
     }
@@ -385,7 +389,8 @@ class AMCdata
     uint8_t  Rtype()   {return m_Rtype;}    ///<Returns Run Type
     uint8_t  Param1()  {return m_Param1;}   
     uint8_t  Param2()  {return m_Param2;}
-    uint8_t  Param3()  {return m_Param3;}
+    uint16_t  Param3()  {return m_Param3;}
+    uint8_t  mspl()  {return m_mspl;}
     uint16_t Onum()    {return m_Onum;}     ///<Returns Orbit number
     uint16_t BID()     {return m_BID;}      ///<Returns Board ID
 

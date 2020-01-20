@@ -32,7 +32,8 @@ public:
     Rtype        = new TH1F("Rtype", "Run Type", 15,  0x0, 0xf);
     Param1       = new TH1F("Param1", "Run Param 1", 256,  -0.5, 255.5);
     Param2       = new TH1F("Param2", "Run Param 2", 256,  -0.5, 255.5);
-    Param3       = new TH1F("Param3", "Run Param 3", 256,  -0.5, 255.5);
+    Param3       = new TH1F("Param3", "Run Param 3", 1024,  -0.5, 1023.5);
+    mspl         = new TH1F("mspl", "mspl", 8,  -0.5, 7.5);
     Onum         = new TH1F("Onum", "Orbit Number", 0xffff,  0, 0xffff);
     BID          = new TH1F("BID", "Board ID", 0xffff,  0, 0xffff);
     GEMDAV       = new TH1F("GEMDAV", "GEM DAV list", 24,  0, 24);
@@ -89,6 +90,7 @@ private:
   TH1F* Param1;                         ///<Histogram for Parameter 1
   TH1F* Param2;                         ///<Histogram for Parameter 2
   TH1F* Param3;                         ///<Histogram for Parameter 3
+  TH1F* mspl;                         ///<Histogram for Parameter 3
   TH1F* Onum;                           ///<Histogram for Orbit Number
   TH1F* BID;                            ///<Histogram for Board ID
   TH1F* GEMDAV;                         ///<Histogram for GEM DAV list
