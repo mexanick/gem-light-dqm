@@ -2,7 +2,7 @@
 //#define gemTreeReader_h
 
 #ifndef DEBUG
-#define DEBUG 0
+#define DEBUG 1
 #endif
 #include <TChain.h>
 #include <TProofOutputFile.h>
@@ -124,7 +124,7 @@ void gemTreeReader::SlaveBegin(TTree * /*tree*/)
   m_amc13H = new AMC13_histogram("preved", gDirectory->mkdir(diramc13->String()), "1");
   m_amc13H->bookHistograms();
   
-  int iAMCSlots[] = {2,4,6}; //Change slots here
+  int iAMCSlots[] = {5}; //Change slots here
   std::vector<int> vec_amcSlots(iAMCSlots, iAMCSlots + sizeof(iAMCSlots) / sizeof(int) );
   for (std::vector<int>::iterator iterAMC=vec_amcSlots.begin(); iterAMC != vec_amcSlots.end(); ++iterAMC){
     std::string strAMCName = "AMC-";
@@ -217,8 +217,8 @@ Bool_t gemTreeReader::Process(Long64_t entry)
           if (slot>-1) {v_vfatH = v_gebH->vfatsH(slot);} else { continue;}
           if (v_vfatH) {
             v_vfatH->fillHistograms(&*v, &*a, &*a13, m_RelOrbitNumber);
-            //if (m_RunType == 1 || m_RunType == 2 || m_RunType == 3){
-            if (m_RunType == 3){
+            if (m_RunType == 1 || m_RunType == 2 || m_RunType == 3){
+            //if (m_RunType == 3){
               v_vfatH->fillScanHistograms(&*v, m_RunType, m_deltaV, m_Latency);
             }
           }

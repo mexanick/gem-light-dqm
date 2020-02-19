@@ -31,6 +31,7 @@ public:
     FiredChannels    = new TH1F("FiredChannels", "FiredChannels", 128, -0.5, 127.5);
     latencyScan      = new TH1F("latencyScan",   "Latency Scan", 1024,  -0.5, 1023.5);
     latencyScan2D    = new TH2F("latencyScan2D", "Latency Scan: Chan Vs Latency", 1024, -0.5, 1023.5, NCHANNELS, -0.5, NCHANNELS-0.5);
+    hitMultVsLat     = new TH2F("hitMultVsLat", "Latency Scan: Hit Multiplicity Vs Latency", 1024, -0.5, 1023.5, NCHANNELS, -0.5, NCHANNELS-0.5);
     const char *warning_labels[3] = {"Flag raised", "No channels fired", "Excessive channels fired"};
     const char *error_labels[1] = {"CRC mismatch"};
     Warnings         = new TH1I("Warnings", "Warnings", 3,  0, 3);
@@ -113,6 +114,7 @@ public:
     }// end loop on channels
     if (channelFired) {
       latencyScan->Fill(latency);
+      hitMultVsLat->Fill(latency,n_h_fired);
     }
   }
   
@@ -131,6 +133,7 @@ private:
   TH1F* SlotN;
   TH1F* latencyScan;
   TH2F* latencyScan2D;
+  TH2F* hitMultVsLat;
   TH1I* Warnings;
   TH1I* Errors;
   int m_sn;
