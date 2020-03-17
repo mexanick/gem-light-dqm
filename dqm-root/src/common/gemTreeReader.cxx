@@ -184,11 +184,11 @@ Bool_t gemTreeReader::Process(Long64_t entry)
       if (v_amcH) v_amcH->fillHistograms(&*a, &*a13);
       if (DEBUG) cout << "Fill AMC histograms"<< endl;
       m_RunType = a->Rtype();
-      if (m_RunType){
+      //if (m_RunType == 2){
         //m_deltaV = a->Param2() - a->Param1();
-        m_Latency = a->Param3();
+        m_Latency = a->Latency();
         //m_Latency = a->Param1();
-      }
+      //}
       //if ( (m_Latency > 166) && (m_Latency < 172) ) {continue;}
       g_c=0;
       /* LOOP THROUGH GEBs */
@@ -217,10 +217,10 @@ Bool_t gemTreeReader::Process(Long64_t entry)
           if (slot>-1) {v_vfatH = v_gebH->vfatsH(slot);} else { continue;}
           if (v_vfatH) {
             v_vfatH->fillHistograms(&*v, &*a, &*a13, m_RelOrbitNumber);
-            if (m_RunType == 1 || m_RunType == 2 || m_RunType == 3){
+            //if (m_RunType == 1 || m_RunType == 2 || m_RunType == 3){
                 //if (m_RunType == 3){
               v_vfatH->fillScanHistograms(&*v, m_RunType, m_deltaV, m_Latency);
-            }
+            //}
           }
         } /* END VFAT LOOP */
       } /* END GEB LOOP */

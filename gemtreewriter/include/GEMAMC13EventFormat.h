@@ -240,10 +240,15 @@ class AMCdata
       //!0000:4   Run Type:4   
       /*!Current version = 0x0;  Could be used to encode run types like physics, cosmics, threshold scan, etc.*/
       uint8_t m_Rtype;
-      uint8_t m_Param1;       ///<Run param1:8 
-      uint8_t m_Param2;       ///<Run param2:8
-      uint16_t m_Param3;       ///<Run param3:8 //GC : messo a 16
-      uint8_t m_mspl;
+      //adapt for the moment to lat scan only, TODO: generalize. See https://github.com/cms-gem-daq-project/cmsgemos/issues/230
+      uint8_t m_isExtTrig;
+      uint8_t m_isCurrentPulse;
+      uint8_t m_CFG_CAL_DAC;
+      uint8_t m_PULSE_STRETCH;
+      uint16_t m_Latency;
+      //uint8_t m_Param1;       ///<Run param1:8 
+      //uint8_t m_Param2;       ///<Run param2:8
+      //uint16_t m_Param3;       ///<Run param3:8 //GC : messo a 16
       uint16_t m_Onum;        ///<Orbit number:16
       //!Board ID:16
       /*!This is currently filled with 8bit long GLIB serial number*/
@@ -289,10 +294,11 @@ class AMCdata
               const uint32_t &Dlength_,
               const uint8_t &FV_,
               const uint8_t &Rtype_, 
-              const uint8_t &Param1_, 
-              const uint8_t &Param2_, 
-              const uint16_t &Param3_, 
-              const uint8_t &mspl_, 
+              const uint8_t &isExtTrig_, 
+              const uint8_t &isCurrentPulse_, 
+              const uint8_t &CFG_CAL_DAC_, 
+              const uint8_t &PULSE_STRETCH_, 
+              const uint16_t &Latency_,      
               const uint16_t &Onum_, 
               const uint16_t &BID_,
               const uint32_t &GEMDAV_, 
@@ -307,10 +313,11 @@ class AMCdata
           m_Dlength(Dlength_),
           m_FV(FV_),
           m_Rtype(Rtype_),                                
-          m_Param1(Param1_),
-          m_Param2(Param2_),                                  
-          m_Param3(Param3_),
-          m_mspl(mspl_),
+          m_isExtTrig(isExtTrig_),
+          m_isCurrentPulse(isCurrentPulse_),                                  
+          m_CFG_CAL_DAC(CFG_CAL_DAC_),
+          m_PULSE_STRETCH(PULSE_STRETCH_),
+          m_Latency(Latency_),
           m_Onum(Onum_),                                    
           m_BID(BID_),
           m_GEMDAV(GEMDAV_), 
@@ -342,10 +349,11 @@ class AMCdata
     {
       m_FV = 0x0f & (word >> 60);     /*!Format Version */
       m_Rtype = 0x0f & (word >> 56);  /*!Run Type */
-      m_Param1 = word >> 48;          /*!Run Param 1 */
-      m_Param2 = word >> 45; //40;          /*!Run Param 2 *
-      m_Param3 = 0x03ff & (word >> 32); //word >> 32;          /*!Run Param 3 */
-      m_mspl = 0x07 & (word >> 42) ;/* 3 bit */
+      m_isExtTrig = 0x1 & (word >> 54);
+      m_isCurrentPulse = 0x1 & (word >> 53);
+      m_CFG_CAL_DAC = word >> 45;
+      m_PULSE_STRETCH = 0x07 & (word >> 42) ;/* 3 bit */
+      m_Latency = 0x03ff & (word >> 32); //word >> 32;          /*!Run Param 3 */
       m_Onum = word >> 16;            /*!Orbit Number */
       m_BID = word;                   /*!Board ID */
     }
@@ -387,10 +395,11 @@ class AMCdata
 
     uint8_t  FV()      {return m_FV;}       ///<Returns Format Version
     uint8_t  Rtype()   {return m_Rtype;}    ///<Returns Run Type
-    uint8_t  Param1()  {return m_Param1;}   
-    uint8_t  Param2()  {return m_Param2;}
-    uint16_t  Param3()  {return m_Param3;}
-    uint8_t  mspl()  {return m_mspl;}
+    uint8_t  isExtTrig()  {return m_isExtTrig;}   
+    uint8_t  isCurrentPulse()  {return m_isCurrentPulse;}
+    uint8_t  CFG_CAL_DAC()  {return m_CFG_CAL_DAC;}
+    uint8_t  PULSE_STRETCH()  {return m_PULSE_STRETCH;}
+    uint16_t Latency()  {return m_Latency;}
     uint16_t Onum()    {return m_Onum;}     ///<Returns Orbit number
     uint16_t BID()     {return m_BID;}      ///<Returns Board ID
 
